@@ -1,23 +1,29 @@
 package org.example;
 
+import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
-import io.appium.java_client.service.local.AppiumServiceBuilder;
-import org.example.apiDemos.apiDemosPageSteps;
-import org.testng.annotations.Test;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebElement;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 
-import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.Duration;
 
-public class AppiumBasics {
+public class BaseTest {
+    public AndroidDriver driver;
+    public AppiumDriverLocalService service;
 
-    @Test
-    public void appiumTest() throws Exception {
-
+    @BeforeClass
+    public void ConfigureAppium() throws MalformedURLException {
+        // Common Appium configuration can be placed here
         // Start Appium Server Programmatically
-//        AppiumDriverLocalService service =
+//        service =
 //                new AppiumServiceBuilder()
 //                        .withAppiumJS(new File("C:\\Users\\Shubham\\AppData\\Roaming\\npm\\node_modules\\appium\\lib\\main.js"))
 //                        .withIPAddress("127.0.0.1")
@@ -25,8 +31,6 @@ public class AppiumBasics {
 //                        .build();
 //
 //        service.start();
-
-        System.out.println("Appium Server Started Successfully!");
 
         // Appium Options
         UiAutomator2Options options = new UiAutomator2Options();
@@ -43,23 +47,21 @@ public class AppiumBasics {
         // If NOT installed, provide APK:
         // options.setApp("C:\\path\\to\\ApiDemos-debug.apk");
 
-        AndroidDriver driver = new AndroidDriver(new URL("http://127.0.0.1:4723"), options);
+        driver = new AndroidDriver(new URL("http://127.0.0.1:4723"), options);
 //        AndroidDriver driver = new AndroidDriver(new URL("http://127.0.0.1:5037"), options);
-
-        // Create instance of apiDemosPageSteps
-        apiDemosPageSteps apiDemos = new apiDemosPageSteps(driver);
-
-        System.out.println("App launched successfully on real device!");
-        // Add automation steps here
-
-//        apiDemos.openPreference("Preference");
-//        apiDemos.openPreference();
-        driver.findElement(AppiumBy.accessibilityId("Preference")).click();
-        driver.findElement(AppiumBy.accessibilityId("Preference")).click();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+    }
 
 
+    public void longPressAction(WebElement element) {
+        ((JavascriptExecutor) driver).executeScript("mobile: longClickGesture", ImmutableMap.of(
+                "elementId", ((RemoteWebElement) element).getId()
+        ));
+    }
 
-
+    @AfterClass
+    public void tearDown() {
+        // Common teardown steps can be placed here
         driver.quit();
 //        service.stop();
     }
