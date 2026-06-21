@@ -1,9 +1,9 @@
-package org.example.apiDemos;
+package org.example.client.apiDemos;
 
 import io.appium.java_client.AppiumBy;
 import org.openqa.selenium.By;
 
-public class apiDemosPageObjects {
+public class apiDemosPO {
     public static By Accessibility1 = AppiumBy.accessibilityId("Access'ibility");
     public static By Accessibility2 = AppiumBy.accessibilityId("Accessibility");
     public static By Animation = AppiumBy.accessibilityId("Animation");
@@ -16,6 +16,11 @@ public class apiDemosPageObjects {
     public static By preference = AppiumBy.accessibilityId("Preference");
     public static By Text = AppiumBy.accessibilityId("Text");
     public static By Views = AppiumBy.accessibilityId("Views");
-    public static By genericMenuOption = AppiumBy.accessibilityId("{0}");
-
+    public static String prederenceDependencies = "//android.widget.TextView[@content-desc='3. Preference dependencies']";
+    public static By dragAndDrop = AppiumBy.accessibilityId("Drag and Drop");
+    public static By imageView = AppiumBy.xpath("//android.widget.ImageView[1]");
+    public static By image2 = AppiumBy.xpath("//android.widget.ImageView[2]");
+    public static By genericMenuOption(String menuName) {
+        return AppiumBy.accessibilityId(menuName);
+    }
 }

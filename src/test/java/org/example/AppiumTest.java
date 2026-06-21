@@ -1,7 +1,6 @@
 package org.example;
 
 import io.appium.java_client.AppiumBy;
-import org.example.apiDemos.apiDemosPageSteps;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
